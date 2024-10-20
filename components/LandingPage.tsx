@@ -1,11 +1,10 @@
 "use client"
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signIn } from "next-auth/react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { MusicIcon, PlusCircleIcon, HeadphonesIcon, UsersIcon } from "lucide-react"
 import Link from "next/link"
-import { Session } from "inspector/promises"
 import Redirect from "./Redirect"
 
 export default function MusicLandingPage() {
