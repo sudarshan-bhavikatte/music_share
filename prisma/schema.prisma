@@ -1,0 +1,58 @@
+
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  provider Provider
+  upvotes UpVotes[]
+  streams Stream[]
+}
+
+model Stream {
+  id String @id @default(uuid())
+  url  String
+  type StreamType
+  extractedId String
+  title String @default("")
+  smallImageUrl String @default("")
+  bigImageUrl String @default("")
+  active Boolean @default(true)
+  upvotes UpVotes[]
+  userId String
+  user User @relation(fields: [userId], references: [id])
+}
+
+model UpVotes {
+  id String @id @default(uuid())
+  userId String 
+  streamId String
+  user User @relation(fields: [userId],references: [id])
+  stream Stream @relation(fields: [streamId],references: [id])
+  @@unique([userId,streamId])
+}
+
+enum StreamType {
+  Youtube
+  Spotify
+}
+
+enum Provider{
+  Google
+}
+enum Role{
+  Streamer
+  EndUser
+}
